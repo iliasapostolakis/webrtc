@@ -1,0 +1,22 @@
+{
+  "name": "mm23",
+  "version": "1.0.0",
+  "description": "Multimedia project 2023",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node ./src/index.js",
+    "start:watch": "nodemon ./src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "pino": "^8.16.2",
+    "socket.io": "^4.7.2",
+    "sqlite3": "^5.1.6"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  }
+}

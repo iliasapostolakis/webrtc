@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Walkie Talkie</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="./static/style/custom.css" />
+  </head>
+  <body>
+    <nav>
+      <div class="logo">WALKIE TALKIE</div>
+    </nav>
+    <section class="hero">
+      <div class="hero-container">
+        <div class="column-left">
+          <h1>Create a chat room, instantly!</h1>
+          <p>Wanna be the talkie to my walkie...?</p>
+          <div>
+            <div class="container">
+              <div class="row">
+                <div class="col">
+                  <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">@</span>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="username"
+                      placeholder="Username"
+                      onchange="checkInputs()"
+                    />
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">#</span>
+                    <input
+                      id="roomname"
+                      class="form-control"
+                      type="text"
+                      placeholder="Room"
+                      onchange="checkInputs()"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <button id="join" type="button" class="btn btn-dark" disabled onclick="joinRoom()">
+                  Join or create room now
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="column-right">
+          <img
+            src="./static/image/artwork.svg"
+            alt="illustration"
+            class="hero-image"
+          />
+        </div>
+      </div>
+    </section>
+    <script>
+      function checkInputs() {
+        const username = document.getElementById("username").value;
+        const roomname = document.getElementById("roomname").value;
+        if (username && roomname) {
+          document.getElementById("join").disabled = false;
+        } else {
+          document.getElementById("join").disabled = true;
+        }
+      }
+
+      function joinRoom() {
+        const username = document.getElementById("username").value;
+        const roomname = document.getElementById("roomname").value;
+        const data = {
+          user: username,
+          room: roomname,
+        };
+        $.ajax({
+          url: "/api/room/join",
+          method: "POST",
+          contentType: 'application/json; charset=utf-8',
+          dataType: 'json',
+          data: JSON.stringify(data),
+          success: function (response) {
+            const client = response.client;
+            const roomId = response.roomId;
+            window.open(`room/?client=${client}&id=${roomId}`, "_blank");
+          },
+          error: function (error) {
+            console.log("Error:", error);
+          },
+        });
+      }
+    </script>
+  </body>
+</html>
